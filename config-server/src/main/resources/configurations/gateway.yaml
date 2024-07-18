@@ -11,12 +11,12 @@ spring:
       discovery:
         locator:
           enabled: true
-#      routes:
-#        - id: student
-#          uri: http://localhost:8091
-#          predicates:
-#            - Path=/api/v1/student/**
-#        - id: school
-#          uri: http://localhost:8092
-#          predicates:
-#            - Path=/api/v1/school/**
+      routes:
+        - id: auth-service
+          uri: http://localhost:8092
+          predicates:
+            - Path=/api/**
+        - id: user-service
+          uri: http://localhost:8093
+          predicates:
+            - Path=/api/**
