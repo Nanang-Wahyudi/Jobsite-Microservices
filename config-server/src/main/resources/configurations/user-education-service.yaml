@@ -22,3 +22,8 @@ spring:
         show_sql: true
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  config:
+    user-url: http://localhost:8093/api
+    education-url: http://localhost:8095/api

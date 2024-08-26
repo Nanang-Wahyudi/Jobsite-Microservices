@@ -2,6 +2,7 @@ package microservices.jobsite.userservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import microservices.jobsite.userservice.model.request.CreateUserDetailAndCompanyRequest;
+import microservices.jobsite.userservice.model.request.UpdateUserDetailRequest;
 import microservices.jobsite.userservice.model.response.NoDataResponse;
 import microservices.jobsite.userservice.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,31 @@ public class UserDetailController {
                     .url(servletRequest.getRequestURI())
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .message("Error creating User Detail: " + ex.getMessage())
+                    .build();
+            response.setTimestamp(new Date());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/v1/user-detail/update/{id}")
+    public ResponseEntity<?> updateUserDetail(HttpServletRequest servletRequest,
+                                              @PathVariable String id,
+                                              @RequestBody UpdateUserDetailRequest userDetailRequest) {
+        try {
+            userDetailService.updateUserDetail(id, userDetailRequest);
+            NoDataResponse response = NoDataResponse.builder()
+                    .url(servletRequest.getRequestURI())
+                    .status(HttpStatus.OK.toString())
+                    .message("User Detail updated successfully")
+                    .build();
+            response.setTimestamp(new Date());
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            NoDataResponse response = NoDataResponse.builder()
+                    .url(servletRequest.getRequestURI())
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                    .message("Error updating User Detail: " + ex.getMessage())
                     .build();
             response.setTimestamp(new Date());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
